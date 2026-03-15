@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from database import Base, engine
+from app.database import Base, engine
 
 
 class User(Base):
@@ -14,6 +14,7 @@ class Resource(Base):
     title = Column(String)
     url = Column(String)
     tags = Column(String)
+    description= Column(String)
     owner_id = Column(String)
 
 Base.metadata.create_all(bind=engine)

@@ -1,22 +1,24 @@
 from typing import List
 from pydantic import BaseModel, ConfigDict
 
-class User(BaseModel):
+class UserBase(BaseModel):
     id: int
     email:str
     password:str
     model_config = ConfigDict(from_attributes= True)
 
-class Resource(BaseModel):
+class ResourceBase(BaseModel):
     id: int
     title: str
     url: str
     tags: str
-    owner_id: int
+    owner_id: str
+    description: str
     model_config= ConfigDict(from_attributes=True)
 
 
-class ResourceCreate(BaseModel):
+class ResourceCreate(ResourceBase):
+    owner_id: str
     title: str
     url: str
     tags: str
@@ -24,17 +26,15 @@ class ResourceCreate(BaseModel):
     model_config= ConfigDict(from_attributes=True)
 
 class ResourceUpdate(BaseModel):
-    id: int
     title: str
     url: str
     tags: str
+    description: str
     model_config= ConfigDict(from_attributes=True)
 
-class ResourceResponse(BaseModel):
+class ResourceResponse(ResourceBase):
     id: int
-    title: str
-    url: str
-    tags: str
+    owner_id: str
     model_config= ConfigDict(from_attributes=True)
 
 class UserCreate(BaseModel):
