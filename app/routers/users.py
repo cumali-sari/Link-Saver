@@ -24,13 +24,17 @@ def register(user:UserCreate, db= Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return "Success", db_user.id
+    return "Success"
 
 @router.get("/login")
 def login_page():
     pass
 
 @router.post("/login")
-def login(user:UserLogin, db= Depends(get_db)):
-    pass
+def login(user: UserLogin, db= Depends(get_db)):
+    found= db.query(User).filter(User.email==user.email).first()
 
+    if not found or not bcrypt.checkpw(user.password.encode(),found.password.encode()):
+        raise HTTPException(status_code=400, detail= "Invalid Credentials")
+    
+    return "Success"
