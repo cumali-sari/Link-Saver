@@ -1,13 +1,13 @@
 from typing import List
 from pydantic import BaseModel, ConfigDict
 
-class UserBase(BaseModel):
+class User(BaseModel):
     id: int
     email:str
     password:str
     model_config = ConfigDict(from_attributes= True)
 
-class ResourceBase(BaseModel):
+class Resource(BaseModel):
     id: int
     title: str
     url: str
@@ -17,7 +17,7 @@ class ResourceBase(BaseModel):
     model_config= ConfigDict(from_attributes=True)
 
 
-class ResourceCreate(ResourceBase):
+class ResourceCreate(Resource):
     owner_id: str
     title: str
     url: str
@@ -32,7 +32,7 @@ class ResourceUpdate(BaseModel):
     description: str
     model_config= ConfigDict(from_attributes=True)
 
-class ResourceResponse(ResourceBase):
+class ResourceResponse(Resource):
     id: int
     owner_id: str
     model_config= ConfigDict(from_attributes=True)
