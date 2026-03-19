@@ -17,8 +17,8 @@ class Resource(BaseModel):
     model_config= ConfigDict(from_attributes=True)
 
 
-class ResourceCreate(Resource):
-    owner_id: str
+class ResourceCreate(BaseModel):
+    owner_id: str="system"
     title: str
     url: str
     tags: str

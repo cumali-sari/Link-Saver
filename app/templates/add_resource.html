@@ -6,24 +6,27 @@
     </head>
 
     <body>
-        <div id="labes">
-            <label >Name</label>
-            <label >Url</label>
-            <label >Tags</label>
-            <label >Description</label>
-        </div>
-
-        <div id="inputs">
-            <div>
-                <input type="text" name="Name">
-                <input type="text" name="Url">
-                <input type="text" name="Tags">
-                <input type="text" name="Description">
+        <form action="http://127.0.0.1:8000/resources" method="post" id="resourceForm">
+            <div id="labes">
+                <label>Title</label>
+                <label>Url</label>
+                <label>Tags</label>
+                <label>Description</label>
             </div>
-        </div>
 
+            <div id="inputs">
+                <div>
+                    <input type="text" name="title">
+                    <input type="text" name="url">
+                    <input type="text" name="tags">
+                    <input type="text" name="description">
+                </div>
+            </div>
+        </form>
         <button type="button" id="Add">Add</button>
-        <button type="submit" form="form1" value="Submit">Submit</button>
-        <script src="app.js"></script>
+        <button type="submit" form="resourceForm" value="Submit">Submit</button>
+        <script>
+            {% include 'app.js' %}
+        </script>
     </body>
 </html>
