@@ -1,14 +1,18 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends,HTTPException, Request
 from app.database import *
 from app.schemas import *
 from  app.models import*
-from fastapi import HTTPException
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
 
 router= APIRouter()
 
+BASE_DIR= Path(__file__).resolve().parent.parent
+templates= Jinja2Templates(directory=str(BASE_DIR/ "templates"))
+
 @router.get("/resources")
-def resources_page():
-    pass
+def resources_page(request: Request):
+    return templates.TemplateResponse("add_resource.html", {"request": request})
 
 @router.post("/resources", response_model= ResourceResponse)
 def resource_create(resource: ResourceCreate, db= Depends(get_db)):

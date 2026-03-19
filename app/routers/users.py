@@ -1,15 +1,18 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from app.schemas import *
 from app.database import *
 from app.models import *
 import bcrypt
-
+from fastapi.templating import Jinja2Templates
+from pathlib import Path
 
 router= APIRouter()
+BASE_DIR= Path(__file__).resolve().parent.parent
+templates= Jinja2Templates(directory= str(BASE_DIR/"templates"))
 
 @router.get("/register")
-def login_page():
-    pass
+def login_page(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
 
 @router.post("/register")
 def register(user:UserCreate, db= Depends(get_db)):
@@ -27,8 +30,8 @@ def register(user:UserCreate, db= Depends(get_db)):
     return "Success"
 
 @router.get("/login")
-def login_page():
-    pass
+def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
 
 @router.post("/login")
 def login(user: UserLogin, db= Depends(get_db)):
