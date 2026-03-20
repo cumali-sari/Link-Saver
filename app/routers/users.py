@@ -16,18 +16,22 @@ def login_page(request: Request):
 
 @router.post("/register")
 def register(user:UserCreate, db= Depends(get_db)):
+    print("email")
+ 
     if (db.query(User).filter(User.email==user.email).first()):
         raise HTTPException(status_code=400, detail="User already exists.")
 
     hashed_pw = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
-    db_user= User(email= user.email,
-                  password=hashed_pw)
+    db_user= User(email= user.email, password=hashed_pw)
 
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
-    return "Success"
+    return "success"
+
+
+        
 
 @router.get("/login")
 def login_page(request: Request):

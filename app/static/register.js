@@ -11,7 +11,7 @@ form.addEventListener("submit", async(e)=>{
         return
     }
     const form_data= new FormData(form);
-    data= Object.fromEntries(form_data.entries());
+    const data= Object.fromEntries(form_data.entries());
 
     const response = await fetch("http://127.0.0.1:8000/register", {
         method: "POST",
@@ -24,10 +24,14 @@ form.addEventListener("submit", async(e)=>{
         })
     });
 
+    
     if(response.ok){
-        alert("success")
+        alert("Registration succesful")
+        window.location.href="/login";
     }
     else{
-        alert("nds")
+        const res= await response.json();
+        alert(res.detail);
     }
+    
 });
