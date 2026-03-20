@@ -7,7 +7,7 @@
 
     <body>
         <form action="http://127.0.0.1:8000/resources" method="post" id="resourceForm">
-            <div id="labes">
+            <div id="labels">
                 <label>Title</label>
                 <label>Url</label>
                 <label>Tags</label>
@@ -25,8 +25,6 @@
         </form>
         <button type="button" id="Add">Add</button>
         <button type="submit" form="resourceForm" value="Submit">Submit</button>
-        <script>
-            {% include 'app.js' %}
-        </script>
+        <script src="/static/app.js" > </script>
     </body>
 </html>

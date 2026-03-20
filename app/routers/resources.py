@@ -4,6 +4,7 @@ from app.schemas import *
 from  app.models import*
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
+from typing import List
 
 router= APIRouter()
 
@@ -14,17 +15,12 @@ templates= Jinja2Templates(directory=str(BASE_DIR/ "templates"))
 def resources_page(request: Request):
     return templates.TemplateResponse("add_resource.html", {"request": request})
 
-@router.post("/resources", response_model= ResourceResponse)
-def resource_create(resource: ResourceCreate, db= Depends(get_db)):
+@router.post("/resources", response_model= List[ResourceResponse])
+def resource_create(resources: List[ResourceCreate], db= Depends(get_db)):
     try:
-        db_resource= Resource(title= resource.title, 
-                              url= resource.url, 
-                              tags= resource.tags, 
-                              description= resource.description,
-                              owner_id="system")
-        db.add(db_resource)
+        db_resource= [Resource(**resource.model_dump()) for resource in resources]
+        db.add_all(db_resource)
         db.commit()
-        db.refresh(db_resource)
         return db_resource
     except Exception as e:
         print(f"{e}")

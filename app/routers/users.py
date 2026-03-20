@@ -19,10 +19,10 @@ def register(user:UserCreate, db= Depends(get_db)):
     if (db.query(User).filter(User.email==user.email).first()):
         raise HTTPException(status_code=400, detail="User already exists.")
 
-    hashed_pw= bcrypt.hashpw(user.password.encode(), bcrypt.gensalt())
+    hashed_pw = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
     db_user= User(email= user.email,
-                  password=hashed_pw.decode())
+                  password=hashed_pw)
 
     db.add(db_user)
     db.commit()
@@ -38,6 +38,6 @@ def login(user: UserLogin, db= Depends(get_db)):
     found= db.query(User).filter(User.email==user.email).first()
 
     if not found or not bcrypt.checkpw(user.password.encode(),found.password.encode()):
-        raise HTTPException(status_code=400, detail= "Invalid Credentials")
+        raise HTTPException(status_code=401, detail="Invalid Credentials")
     
-    return "Success"
+    return {"message": "Success"}
