@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends,HTTPException, Request
+from fastapi import APIRouter, Depends,HTTPException, Request, Form
 from app.database import *
 from app.schemas import *
 from  app.models import*
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 from typing import List
+from fastapi.responses import RedirectResponse
 
 router= APIRouter()
 
@@ -27,29 +28,35 @@ def resource_create(resources: List[ResourceCreate], db= Depends(get_db)):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.put("/resources/{id}", response_model= ResourceResponse )
-def resource_update(id: int, resource: ResourceUpdate, db = Depends(get_db)):
-    res = db.query(Resource).filter(Resource.id== id).first()
-    res.title = resource.title
-    res.url = resource.url
-    res.tags = resource.tags
-    res.description = resource.description
+@router.post("/dashboard")
+def bulk_update(
+    title: list[str] = Form(...),
+    url: list[str] = Form(...),
+    tags: list[str] = Form(...),
+    description: list[str] = Form(...),
+    id: list[int] = Form(...),
+    db= Depends(get_db)
+):
+    for i, t, u, tg, d in zip(id, title, url, tags, description):
+        res = db.query(Resource).filter(Resource.id == i).first()
+        res.title = t
+        res.url = u
+        res.tags = tg
+        res.description = d
+
     db.commit()
-    db.refresh(res)
-    return res
+
+    return RedirectResponse(url="/dashboard", status_code=303)
+
 @router.delete("/resources/{id}")
 def resource_delete(id:int, db= Depends(get_db)):
-    try:
-        db.query(Resource).filter(Resource.id== id).delete()
-        db.commit()
-    except Exception as e:
-        raise Exception(e)
-    return "Deleted succesfully"
+    
+    db.query(Resource).filter(Resource.id== id).delete()
+    db.commit()
 
 @router.get("/dashboard")
 def read_items(request: Request, db = Depends(get_db)):
     resources= db.query(Resource).all()
-
     return templates.TemplateResponse("dashboard.html", {"request": request, "resources": resources})
 
 

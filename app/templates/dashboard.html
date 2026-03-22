@@ -1,28 +1,63 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     </head>
     <body>
-        <table>
+
+    <button type="button" onclick="enableAllRows()">Edit All Rows</button>
+
+    <form method="post" action="/dashboard">
+
+        <table >
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Url</th>
                     <th>Tags</th>
                     <th>Description</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
+
             <tbody>
                 {% for resource in resources %}
                 <tr>
-                    <td>{{ resource.title }}</td>
-                    <td>{{ resource.url }}</td>
-                    <td>{{ resource.tags }}</td>
-                    <td>{{ resource.description }}</td>
+
+                    <input type="hidden" name="id" value="{{ resource.id }}">
+
+                    <td><input name="title" value="{{ resource.title }}" disabled></td>
+                    <td><input name="url" value="{{ resource.url }}" disabled></td>
+                    <td><input name="tags" value="{{ resource.tags }}" disabled></td>
+                    <td><input name="description" value="{{ resource.description }}" disabled></td>
+
+                    <td>
+                        <button type="button"
+                                hx-delete="/resources/{{ resource.id }}"
+                                hx-target="closest tr"
+                                hx-swap="delete">
+                            Delete
+                        </button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <br>
+        <button type="submit">Save All Changes</button>
+
+    </form>
+
+    <script>
+    
+    function enableAllRows() {
+        const inputs = document.querySelectorAll("table tbody input");
+        inputs.forEach(input => {
+            if (input.type != "hidden") input.removeAttribute("disabled");
+        });
+    }
+    </script>
+
     </body>
 </html>
