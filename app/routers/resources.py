@@ -46,5 +46,10 @@ def resource_delete(id:int, db= Depends(get_db)):
         raise Exception(e)
     return "Deleted succesfully"
 
+@router.get("/dashboard")
+def read_items(request: Request, db = Depends(get_db)):
+    resources= db.query(Resource).all()
+
+    return templates.TemplateResponse("dashboard.html", {"request": request, "resources": resources})
 
 
