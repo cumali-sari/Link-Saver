@@ -62,10 +62,14 @@ form.addEventListener("submit", async (e)=> {
         alert("Fill out at least one row.");
         return;
     }
+
+    
+
     const response= await fetch("http://127.0.0.1:8000/resources", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}` 
         },
         body: JSON.stringify(data)
     });

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from app.schemas import *
 from app.database import *
 from app.models import *
+from app.auth import *
 import bcrypt
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
@@ -44,4 +45,6 @@ def login(user: UserLogin, db= Depends(get_db)):
     if not found or not bcrypt.checkpw(user.password.encode(),found.password.encode()):
         raise HTTPException(status_code=401, detail="Invalid Credentials")
     
-    return {"message": "Success"}
+    access_token = create_access_token(data={"sub": found.email})
+
+    return {"access_token": access_token, "token_type": "bearer"}
