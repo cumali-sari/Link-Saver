@@ -2,6 +2,9 @@
 <html>
     <head>
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script>
+            htmx.config.withCredentials = true;
+        </script>
     </head>
     <body>
 
@@ -34,6 +37,7 @@
                     <td>
                         <button type="button"
                                 hx-delete="/resources/{{ resource.id }}"
+                                hx-headers='{"Authorization": "Bearer {{ token }}"}'
                                 hx-target="closest tr"
                                 hx-swap="delete">
                             Delete
@@ -50,6 +54,13 @@
     </form>
 
     <script>
+    htmx.on("htmx:configRequest", (event) => {
+        const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
+        if (tokenCookie) {
+            const token = tokenCookie.split('=')[1];
+            event.detail.headers["Authorization"] = `Bearer ${token}`;
+        }
+    });
     
     function enableAllRows() {
         const inputs = document.querySelectorAll("table tbody input");

@@ -6,6 +6,7 @@ from app.auth import *
 import bcrypt
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
+from fastapi.responses import JSONResponse
 
 router= APIRouter()
 BASE_DIR= Path(__file__).resolve().parent.parent
@@ -46,5 +47,6 @@ def login(user: UserLogin, db= Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid Credentials")
     
     access_token = create_access_token(data={"sub": found.email})
-
-    return {"access_token": access_token, "token_type": "bearer"}
+    response = JSONResponse(content={"message": "success"})
+    response.set_cookie(key="token", value=access_token, httponly=True)
+    return response
