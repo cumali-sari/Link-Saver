@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="{{ url_for('static', path='/dashboard.css') }}">
         <script src="https://unpkg.com/htmx.org@1.9.10"></script>
         <script>
             htmx.config.withCredentials = true;
@@ -61,7 +62,7 @@
             event.detail.headers["Authorization"] = `Bearer ${token}`;
         }
     });
-    
+
     function enableAllRows() {
         const inputs = document.querySelectorAll("table tbody input");
         inputs.forEach(input => {

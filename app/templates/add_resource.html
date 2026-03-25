@@ -2,10 +2,11 @@
 
 <html>
     <head>
-
+        <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
     </head>
 
     <body>
+        <a href="/dashboard" class="dashboard">Dashboard</a>
         <form action="http://127.0.0.1:8000/resources" method="post" id="resourceForm">
             <div id="labels">
                 <label>Title</label>
@@ -22,9 +23,28 @@
                     <input type="text" name="description">
                 </div>
             </div>
+
+            <div id="inputs">
+                <div>
+                    <input type="text" name="title">
+                    <input type="text" name="url">
+                    <input type="text" name="tags">
+                    <input type="text" name="description">
+                </div>
+            </div>
+
+            <div id="inputs">
+                <div>
+                    <input type="text" name="title">
+                    <input type="text" name="url">
+                    <input type="text" name="tags">
+                    <input type="text" name="description">
+                </div>
+            </div>
+
         </form>
-        <button type="button" id="Add">Add</button>
-        <button type="submit" form="resourceForm" value="Submit">Submit</button>
+        <button type="button" id="Add">Add New Row</button>
+        <button type="submit" form="resourceForm" value="Submit">Save Links</button>
         <script src="/static/app.js" > </script>
     </body>
 </html>
