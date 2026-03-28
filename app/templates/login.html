@@ -2,7 +2,7 @@
 
 <html>
     <head>
-
+        <link rel="stylesheet" href="{{ url_for('static', path='/login.css') }}">
     </head>
 
     <body>
@@ -17,7 +17,7 @@
 </form>
 
 <script src="/static/log.js"></script>
-        <p>Not a user<button type="button">Create account</button></p><button type="button">Register</button>
+        <p>Not a user <a href="/register" class="register-link">Create an account</a></p>
         
     </body>
 </html>
