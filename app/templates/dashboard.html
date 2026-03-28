@@ -11,7 +11,7 @@
 
     <button type="button" onclick="enableAllRows()">Edit All Rows</button>
 
-    <form method="post" action="/dashboard">
+    <form method="post" action="/dashboard" onsubmit="return validate()">
 
         <table >
             <thead>
@@ -50,25 +50,45 @@
         </table>
 
         <br>
-        <button type="submit">Save All Changes</button>
+        <button id="save_b" type="submit" disabled>Save All Changes</button>
 
     </form>
 
     <script>
-    htmx.on("htmx:configRequest", (event) => {
-        const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
-        if (tokenCookie) {
-            const token = tokenCookie.split('=')[1];
-            event.detail.headers["Authorization"] = `Bearer ${token}`;
-        }
-    });
+        function validate() {
+            const rows = document.querySelectorAll("table tbody tr");
 
-    function enableAllRows() {
-        const inputs = document.querySelectorAll("table tbody input");
-        inputs.forEach(input => {
-            if (input.type != "hidden") input.removeAttribute("disabled");
+            for (const row of rows) {
+                const title = row.querySelector('[name="title"]').value;
+                const url = row.querySelector('[name="url"]').value;
+                const tags = row.querySelector('[name="tags"]').value;
+                const description = row.querySelector('[name="description"]').value;
+
+                if (!title && !url && !tags && !description) {
+                    alert("Empty row detected. Please fill at least one field or delete the row.");
+                    return false; 
+                }
+            }
+            return true;
+        }
+
+        htmx.on("htmx:configRequest", (event) => {
+            const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
+            if (tokenCookie) {
+                const token = tokenCookie.split('=')[1];
+                event.detail.headers["Authorization"] = `Bearer ${token}`;
+            }
         });
-    }
+
+        function enableAllRows() {
+            const inputs = document.querySelectorAll("table tbody input");
+            inputs.forEach(input => {
+                if (input.type != "hidden") input.removeAttribute("disabled");
+            });
+
+            const subButton= document.getElementById("save_b");
+            subButton.removeAttribute("disabled");
+        }
     </script>
 
     </body>
