@@ -13,7 +13,7 @@ form.addEventListener("submit", async(e)=>{
     const form_data= new FormData(form);
     const data= Object.fromEntries(form_data.entries());
 
-    const response = await fetch("http://127.0.0.1:8000/register", {
+    const response = await fetch("/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
