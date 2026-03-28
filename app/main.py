@@ -15,4 +15,8 @@ app.include_router(users.router)
 
 @app.get("/")
 def main_page(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse(
+        request=request, 
+        name="index.html", 
+        context={}  
+    )
