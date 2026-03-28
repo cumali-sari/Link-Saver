@@ -65,7 +65,7 @@ form.addEventListener("submit", async (e)=> {
 
     
 
-    const response= await fetch("http://127.0.0.1:8000/resources", {
+    const response= await fetch("/resources", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
