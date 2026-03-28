@@ -8,7 +8,7 @@ login_form.addEventListener("submit", async (e) => {
 
     
 
-    const res = await fetch("http://127.0.0.1:8000/login", {
+    const res = await fetch("/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
