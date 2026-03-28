@@ -15,7 +15,7 @@ templates= Jinja2Templates(directory=str(BASE_DIR/ "templates"))
 
 @router.get("/resources")
 def resources_page(request: Request):
-    return templates.TemplateResponse("add_resource.html", {"request": request})
+    return return templates.TemplateResponse(request, "add_resource.html")
 
 @router.post("/resources", response_model= List[ResourceResponse])
 def resource_create(resources: List[ResourceCreate], email: str = Depends(get_current_user_email), db= Depends(get_db)):
@@ -59,6 +59,6 @@ def resource_delete(id:int, email: str = Depends(get_current_user_email), db= De
 @router.get("/dashboard")
 def read_items(request: Request, email: str = Depends(get_current_user_email), db = Depends(get_db)):
     resources= db.query(Resource).filter(Resource.owner_id == email).all()
-    return templates.TemplateResponse("dashboard.html", {"request": request, "resources": resources})
+    return templates.TemplateResponse(request, "dashboard.html", {"resources": resources})
 
 
