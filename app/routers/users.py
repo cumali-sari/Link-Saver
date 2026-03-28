@@ -13,7 +13,7 @@ BASE_DIR= Path(__file__).resolve().parent.parent
 templates= Jinja2Templates(directory= str(BASE_DIR/"templates"))
 
 @router.get("/register")
-def login_page(request: Request):
+def register_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
 @router.post("/register")
