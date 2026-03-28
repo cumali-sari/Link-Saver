@@ -10,7 +10,7 @@ security = HTTPBearer()
 load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = 300
 
 
@@ -32,7 +32,7 @@ def verify_token(token: str):
         return None
 
 def get_current_user_email(request: Request):
-    token = request.cookies.get("token")  # read token from browser cookie
+    token = request.cookies.get("token")  
     email = verify_token(token)
     if not email:
         raise HTTPException(status_code=401, detail="Invalid token")
