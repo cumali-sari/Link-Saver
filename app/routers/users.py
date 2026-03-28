@@ -14,7 +14,7 @@ templates= Jinja2Templates(directory= str(BASE_DIR/"templates"))
 
 @router.get("/register")
 def register_page(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
+    return templates.TemplateResponse(request, "register.html", {"request": request})
 
 @router.post("/register")
 def register(user:UserCreate, db= Depends(get_db)):
@@ -37,7 +37,7 @@ def register(user:UserCreate, db= Depends(get_db)):
 
 @router.get("/login")
 def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html", {"request": request})
 
 @router.post("/login")
 def login(user: UserLogin, db= Depends(get_db)):
