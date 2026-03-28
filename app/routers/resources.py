@@ -15,7 +15,7 @@ templates= Jinja2Templates(directory=str(BASE_DIR/ "templates"))
 
 @router.get("/resources")
 def resources_page(request: Request):
-    return return templates.TemplateResponse(request, "add_resource.html")
+    return templates.TemplateResponse(request, "add_resource.html")
 
 @router.post("/resources", response_model= List[ResourceResponse])
 def resource_create(resources: List[ResourceCreate], email: str = Depends(get_current_user_email), db= Depends(get_db)):
