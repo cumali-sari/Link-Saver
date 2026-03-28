@@ -14,5 +14,5 @@ BASE_DIR= Path(__file__).resolve().parent
 templates= Jinja2Templates(directory=str(BASE_DIR/ "templates"))
 
 @app.get("/")
-def resources_page(request: Request):
+def main_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
