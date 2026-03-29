@@ -6,6 +6,8 @@ form.addEventListener("submit", async(e)=>{
     const password= document.getElementById("password").value;
     const check_password= document.getElementById("check_password").value;
 
+    if(password.length < 8) {alert("Password length must be at least 8 character")}
+
     if(password!= check_password){
         alert("Passwords do not match");
         return
